@@ -11,6 +11,7 @@ contract SIA_Platform {
     error ZeroAddress();
     error InvalidValue(uint required, uint actual);
     error InvalidPrice(int price);
+    error ZeroValue();
 
     event CheckedIn(address indexed account, uint amount, uint remains);
     event CheckedInUSDT(address indexed account, uint amount);
@@ -18,8 +19,6 @@ contract SIA_Platform {
     event AgentCreatedUSDT(address indexed account, uint amount);
     event AllianceCreated(address indexed account, uint amount, uint remains);
     event AllianceCreatedUSDT(address indexed account, uint amount);
-    event USDTAddressChanged(address indexed new_usdtAddress);
-    event PriceFeedAddressChanged(address indexed new_priceFeedAddress);
     event CheckInValueChanged(uint new_checkIn_amount);
     event AgentCreateValueChanged(uint new_agentCreate_amount);
     event AllianceCreateValueChanged(uint new_allianceCreate_amount);
@@ -41,8 +40,8 @@ contract SIA_Platform {
     uint constant DEFAULT_CHECKIN_AMOUNT = 1e6;
     uint constant DEFAULT_AGENT_CREATE_AMOUNT = 1e6;
     uint constant DEFAULT_ALLIANCE_CREATE_AMOUNT = 499000000;
-    address constant DEFAULT_CHAINLINK_FEEDER = 0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE; // BSC Mainnet BNB/USD
-    address constant DEFAULT_USDT = 0x55d398326f99059fF775485246999027B3197955; // BSC Mainnet USDT
+    address constant DEFAULT_CHAINLINK_FEEDER = 0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE;
+    address constant DEFAULT_USDT = 0x55d398326f99059fF775485246999027B3197955;
 
     constructor(address owner, address receiver) {
         if (owner == address(0) || receiver == address(0)) revert ZeroAddress();
@@ -138,22 +137,8 @@ contract SIA_Platform {
         return address(_usdt);
     }
 
-    function setUSDTAddress(address new_usdtAddress) external onlyOwner {
-        if (new_usdtAddress == address(0)) revert ZeroAddress();
-        _usdt = ERC20(new_usdtAddress);
-        emit USDTAddressChanged(new_usdtAddress);
-    }
-
     function getPriceFeedAddress() external view returns (address) {
         return address(_priceFeed);
-    }
-
-    function setPriceFeedAddress(
-        address new_priceFeedAddress
-    ) external onlyOwner {
-        if (new_priceFeedAddress == address(0)) revert ZeroAddress();
-        _priceFeed = AggregatorInterface(new_priceFeedAddress);
-        emit PriceFeedAddressChanged(new_priceFeedAddress);
     }
 
     function getCheckInValue() external view returns (uint) {
@@ -161,6 +146,7 @@ contract SIA_Platform {
     }
 
     function setCheckInValue(uint new_checkIn_amount) external onlyOwner {
+        if (new_checkIn_amount == 0) revert ZeroValue();
         _checkIn_amount = new_checkIn_amount;
         emit CheckInValueChanged(new_checkIn_amount);
     }
@@ -172,6 +158,7 @@ contract SIA_Platform {
     function setAgentCreateValue(
         uint new_agentCreate_amount
     ) external onlyOwner {
+        if (new_agentCreate_amount == 0) revert ZeroValue();
         _agentCreate_amount = new_agentCreate_amount;
         emit AgentCreateValueChanged(new_agentCreate_amount);
     }
@@ -183,6 +170,7 @@ contract SIA_Platform {
     function setAllianceCreateValue(
         uint new_allianceCreate_amount
     ) external onlyOwner {
+        if (new_allianceCreate_amount == 0) revert ZeroValue();
         _allianceCreate_amount = new_allianceCreate_amount;
         emit AllianceCreateValueChanged(new_allianceCreate_amount);
     }
