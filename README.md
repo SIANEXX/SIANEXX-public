@@ -27,7 +27,7 @@ SIA Platform is a unified payment contract that manages on-chain operations for 
 
 | Contract | Address |
 |----------|---------|
-| SIA_Platform | [`0x052965eA4FE4e299594cd077D9a21c7808de5465`](https://bscscan.com/address/0x052965eA4FE4e299594cd077D9a21c7808de5465) |
+| SIA_Platform | [`0xF27B2cC8367Bb5BbC82a08b0f24768dF9CFDCDB3`](https://bscscan.com/address/0xF27B2cC8367Bb5BbC82a08b0f24768dF9CFDCDB3) |
 | USDT (BSC) | [`0x55d398326f99059fF775485246999027B3197955`](https://bscscan.com/token/0x55d398326f99059fF775485246999027B3197955) |
 | Chainlink BNB/USD | [`0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE`](https://bscscan.com/address/0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE) |
 
